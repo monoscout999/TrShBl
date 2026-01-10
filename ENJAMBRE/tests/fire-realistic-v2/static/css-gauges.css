@@ -1,0 +1,47 @@
+#temp-gauge {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 350px;
+    background: linear-gradient(to top, #ff0000 0%, #ff6600 25%, #ffaa00 50%, #ffff00 75%, #ffffff 100%);
+    border: 3px solid rgba(255,255,255,0.8);
+    border-radius: 25px;
+    z-index: 10;
+    box-shadow: 0 0 30px rgba(255,100,0,0.6);
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+}
+
+#fps {
+    position: fixed;
+    top: 20px;
+    background: rgba(0,0,0,0.8);
+    color: #ffaa00;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: Roboto Mono monospace;
+    z-index: 10;
+    border: 1px solid rgba(255,170,0,0.3);
+}
+
+#fps {
+    right: 20px;
+}
+
+#particle-count {
+    position: fixed;
+    top: 60px;
+    background: rgba(0,0,0,0.8);
+    color: #ffaa00;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: Roboto Mono monospace;
+    z-index: 10;
+    border: 1px solid rgba(255,170,0,0.3);
+}
+
+#particle-count {
+    right: 20px;
+}

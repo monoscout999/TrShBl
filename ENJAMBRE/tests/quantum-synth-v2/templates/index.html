@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>Quantum Synth V4</title>
+    <link rel='stylesheet' href='/static/style.css'>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/d3-delaunay@6'></script>
+    <link href='https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap' rel='stylesheet'>
+</head>
+<body>
+    <canvas id='bg-canvas'></canvas>
+    <canvas id='particle-canvas'></canvas>
+    <canvas id='ui-canvas'></canvas>
+    <div class='crt-overlay'></div>
+    <div class='hud'>
+        <div class='panel top-left'>
+            <h2>AUDIO ENGINE</h2>
+            <button id='start'>ACTIVATE LINK</button>
+            <div class='row'>
+                <label>GAIN</label>
+                <input type='range' id='gain-slider' min='-60' max='0' value='-12'></div>
+        </div>
+        <div class='panel top-right'>
+            <h2>QUANTUM DECODING</h2>
+            <div class='row'>
+                <label>DENSITY</label>
+                <input type='range' id='density-slider' min='100' max='1000' value='500'></div>
+                <div class='row'>
+                    <label>SPEED</label>
+                    <input type='range' id='speed-slider' min='0' max='100' value='50'></div>
+            </div>
+        </div>
+        <div class='panel bottom-left'>
+            <h2>SPECTRAL DATA</h2>
+            <canvas id='spectrogram-canvas'></canvas>
+        </div>
+        <div class='panel bottom-right'>
+            <h2>PRESET SELECT</h2>
+            <select id='preset-select'><option>PLASMA</option><option>ELECTRON</option><option>QUARK</option></select>
+        </div>
+    </div>
+    <script type='module' src='/static/js/main.js'></script>
+</body>
+</html>

@@ -1,0 +1,411 @@
+{
+  "projects_created": 26,
+  "success_rate": 98.02,
+  "avg_retries": 1.08,
+  "common_errors": {
+    "python_js_mix": 0,
+    "missing_folders": 0,
+    "wrong_paths": 0,
+    "encoding_unicode": 0
+  },
+  "templates_used": {
+    "flask-fullstack": 0,
+    "flask-basic": 0,
+    "cyberpunk-landing": 1,
+    "quantum-vortex": 7
+  },
+  "execution_history": [
+    {
+      "timestamp": "2026-01-10T06:57:09.450555",
+      "template": "cyberpunk-landing",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 13.88,
+      "tasks": 7,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T07:04:14.622667",
+      "template": "quantum-vortex",
+      "success_rate": 75.0,
+      "avg_retries": 1.5,
+      "elapsed_time": 15.44,
+      "tasks": 8,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T07:09:34.326202",
+      "template": "quantum-vortex",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 9.63,
+      "tasks": 4,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T07:13:29.026836",
+      "template": "quantum-vortex",
+      "success_rate": 100.0,
+      "avg_retries": 1.12,
+      "elapsed_time": 27.02,
+      "tasks": 8,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T07:26:00.990579",
+      "template": "quantum-vortex",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 22.07,
+      "tasks": 8,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T07:36:13.877336",
+      "template": "quantum-vortex",
+      "success_rate": 100.0,
+      "avg_retries": 1.25,
+      "elapsed_time": 37.58,
+      "tasks": 4,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T07:43:00.205454",
+      "template": "quantum-vortex",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 4.34,
+      "tasks": 5,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T07:55:04.313337",
+      "template": "quantum-vortex",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 24.32,
+      "tasks": 3,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T08:13:38.107958",
+      "template": "unknown",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 6.6,
+      "tasks": 2,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T08:14:05.706233",
+      "template": "unknown",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 4.57,
+      "tasks": 3,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T08:14:47.989422",
+      "template": "unknown",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 8.89,
+      "tasks": 4,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T08:22:02.176042",
+      "template": "unknown",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 7.75,
+      "tasks": 2,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T08:22:44.468876",
+      "template": "unknown",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 8.57,
+      "tasks": 4,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T08:23:49.809589",
+      "template": "unknown",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 17.46,
+      "tasks": 6,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T08:41:13.081585",
+      "template": "unknown",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 5.6,
+      "tasks": 6,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T08:51:04.568568",
+      "template": "unknown",
+      "success_rate": 71.43,
+      "avg_retries": 1.57,
+      "elapsed_time": 13.49,
+      "tasks": 7,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T08:56:23.658824",
+      "template": "unknown",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 19.74,
+      "tasks": 16,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T09:04:45.467504",
+      "template": "unknown",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 8.34,
+      "tasks": 10,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T09:09:45.017470",
+      "template": "unknown",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 7.22,
+      "tasks": 9,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T20:37:27.155875",
+      "template": "unknown",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 0.8,
+      "tasks": 2,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T20:39:55.404659",
+      "template": "unknown",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 2.6,
+      "tasks": 3,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T20:40:07.980535",
+      "template": "unknown",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 6.34,
+      "tasks": 5,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T20:42:42.651416",
+      "template": "unknown",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 2.04,
+      "tasks": 2,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T20:42:48.654331",
+      "template": "unknown",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 5.68,
+      "tasks": 5,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T20:43:04.738017",
+      "template": "unknown",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 4.84,
+      "tasks": 5,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T20:43:40.604978",
+      "template": "unknown",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 5.04,
+      "tasks": 5,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T20:44:07.864189",
+      "template": "unknown",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 5.5,
+      "tasks": 5,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-10T20:44:51.258729",
+      "template": "unknown",
+      "success_rate": 100.0,
+      "avg_retries": 1.0,
+      "elapsed_time": 3.05,
+      "tasks": 4,
+      "errors": {
+        "python_js_mix": 0,
+        "missing_folders": 0,
+        "wrong_paths": 0,
+        "encoding_unicode": 0
+      }
+    }
+  ]
+}

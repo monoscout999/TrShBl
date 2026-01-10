@@ -1,0 +1,32 @@
+[
+    {
+        "name": "HTML-Base",
+        "prompt": "Generate ONLY HTML5 code (no CSS/JS/explanations). Code: <!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><title>Voxel Game</title><style>body{margin:0;overflow:hidden;}#crosshair{position:absolute;top:50%;left:50%;width:20px;height:20px;border:2px solid white;transform:translate(-50%,-50%);pointer-events:none;z-index:10;}</style><script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'></script></head><body><div id='crosshair'>+</div><script src='../static/js-setup.js'></script><script src='../static/js-world.js'></script><script src='../static/js-player.js'></script><script src='../static/js-interaction.js'></script><script src='../static/js-loop.js'></script></body></html>",
+        "output": "templates/index.html"
+    },
+    {
+        "name": "JS-Setup",
+        "prompt": "Generate ONLY JavaScript code (no HTML/CSS/explanations). DO NOT USE 'import * as THREE', user global 'THREE'. Code: window.scene = new THREE.Scene(); window.scene.background = new THREE.Color(0x87CEEB); window.camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000); window.renderer = new THREE.WebGLRenderer(); renderer.setSize(window.innerWidth, window.innerHeight); document.body.appendChild(renderer.domElement); const ambientLight = new THREE.AmbientLight(0xffffff, 0.6); scene.add(ambientLight); const dirLight = new THREE.DirectionalLight(0xffffff, 0.8); dirLight.position.set(100, 100, 50); scene.add(dirLight); window.voxels = []; window.voxelMap = new Map(); window.chunkSize = 20;",
+        "output": "static/js-setup.js"
+    },
+    {
+        "name": "JS-World",
+        "prompt": "Generate ONLY JavaScript code (no HTML/CSS/explanations). Use global THREE. Code: const geometry = new THREE.BoxGeometry(1, 1, 1); const material = new THREE.MeshLambertMaterial({color: 0x228B22}); function createVoxel(x, y, z) { const voxel = new THREE.Mesh(geometry, material); voxel.position.set(x, y, z); scene.add(voxel); voxels.push(voxel); voxelMap.set(x+','+y+','+z, voxel); } for(let x=-chunkSize; x<chunkSize; x++) { for(let z=-chunkSize; z<chunkSize; z++) { createVoxel(x, 0, z); if(Math.random() > 0.95) { createVoxel(x, 1, z); if(Math.random() > 0.5) createVoxel(x, 2, z); } } }",
+        "output": "static/js-world.js"
+    },
+    {
+        "name": "JS-Player",
+        "prompt": "Generate ONLY JavaScript code (no HTML/CSS/explanations). Use global THREE. Code: camera.position.y = 2; const keys = {}; document.addEventListener('keydown', (e) => keys[e.code] = true); document.addEventListener('keyup', (e) => keys[e.code] = false); const velocity = new THREE.Vector3(); const direction = new THREE.Vector3(); function updatePlayer() { velocity.x -= velocity.x * 10.0 * 0.01; velocity.z -= velocity.z * 10.0 * 0.01; direction.z = Number(keys['KeyW']) - Number(keys['KeyS']); direction.x = Number(keys['KeyD']) - Number(keys['KeyA']); direction.normalize(); if (keys['KeyW'] || keys['KeyS']) velocity.z -= direction.z * 400.0 * 0.01; if (keys['KeyA'] || keys['KeyD']) velocity.x -= direction.x * 400.0 * 0.01; camera.translateX(-velocity.x * 0.001); camera.translateZ(velocity.z * 0.001); }",
+        "output": "static/js-player.js"
+    },
+    {
+        "name": "JS-Interaction",
+        "prompt": "Generate ONLY JavaScript code (no HTML/CSS/explanations). Use global THREE. Code: const raycaster = new THREE.Raycaster(); const handRange = 4; const handGeo = new THREE.BoxGeometry(0.2, 0.2, 0.6); const handMat = new THREE.MeshBasicMaterial({color: 0xFFCCAA}); const hand = new THREE.Mesh(handGeo, handMat); camera.add(hand); hand.position.set(0.3, -0.3, -0.5); scene.add(camera); document.addEventListener('click', () => { document.body.requestPointerLock(); raycaster.setFromCamera(new THREE.Vector2(), camera); const intersects = raycaster.intersectObjects(voxels); if(intersects.length > 0 && intersects[0].distance < handRange) { const obj = intersects[0].object; scene.remove(obj); voxels.splice(voxels.indexOf(obj), 1); hand.position.z = -0.8; setTimeout(() => hand.position.z = -0.5, 100); } else { hand.position.z = -0.8; setTimeout(() => hand.position.z = -0.5, 100); } });",
+        "output": "static/js-interaction.js"
+    },
+    {
+        "name": "JS-Loop",
+        "prompt": "Generate ONLY JavaScript code (no HTML/CSS/explanations). Code: function animate() { requestAnimationFrame(animate); updatePlayer(); renderer.render(scene, camera); } animate();",
+        "output": "static/js-loop.js"
+    }
+]

@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Backend",
+        "prompt": "Generate ONLY Python Flask code (no HTML/JS/CSS/explanations). Code: from flask import Flask, render_template; app = Flask(__name__, static_folder='static', template_folder='templates'); @app.route('/'); def index(): return render_template('index.html'); if __name__ == '__main__': app.run(port=5000, debug=True)",
+        "output": "app.py"
+    },
+    {
+        "name": "HTML",
+        "prompt": "Generate ONLY HTML5 code (no CSS/JS). Structure: DOCTYPE, html, head with title 'Fire Particle Simulator', link to Google Fonts Roboto, link to /static/style.css. Body: canvas id='fire-canvas', div id='controls' with h2 'Controls', 5 range inputs (id='intensity' min='0' max='100' value='70', id='wind' min='0' max='100' value='30', id='buoyancy' min='0' max='100' value='50', id='temperature' min='500' max='2000' value='1500', id='particle-count' min='100' max='800' value='400'), 3 buttons (id='preset-campfire' text='Campfire', id='preset-torch' text='Torch', id='preset-inferno' text='Inferno'), div id='temperature-gauge', div id='fps-counter' text='60 FPS'. Scripts: SimplexNoise CDN (https://cdn.jsdelivr.net/npm/simplex-noise@4.0.1/dist/simplex-noise.min.js), /static/script.js.",
+        "output": "templates/index.html"
+    }
+]

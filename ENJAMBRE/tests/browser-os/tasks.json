@@ -1,0 +1,37 @@
+[
+    {
+        "name": "OS-HTML",
+        "prompt": "Generate ONLY HTML5 code (no CSS/JS/explanations). Structure for a WebOS. Elements: #desktop, #taskbar (bottom), #start-menu (hidden). Import 'css/style.css', 'js/kernel.js', 'js/wm.js', 'js/fs.js'. Apps will be loaded dynamically or included. Code: <!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><title>BrowserOS 3000</title><link rel='stylesheet' href='css/style.css'></head><body><div id='desktop'></div><div id='taskbar'><button id='start-btn'>Start</button><div id='clock'>00:00</div></div><div id='start-menu' style='display:none'><ul><li onclick=\"OS.wm.open('terminal')\">Terminal</li><li onclick=\"OS.wm.open('notepad')\">Notepad</li><li onclick=\"OS.wm.open('paint')\">Paint</li></ul></div><script src='js/fs.js'></script><script src='js/wm.js'></script><script src='js/kernel.js'></script><script src='apps/terminal.js'></script><script src='apps/notepad.js'></script><script src='apps/paint.js'></script></body></html>",
+        "output": "index.html"
+    },
+    {
+        "name": "OS-CSS",
+        "prompt": "Generate ONLY CSS code (no HTML/JS/explanations). Style: Windows 95 Retro. Colors: Teal background (#008080), Gray windows (#C0C0C0). Features: .window { border: 2px outset #fff; box-shadow: 2px 2px 0 #000; position: absolute; display: flex; flex-direction: column; font-family: 'Courier New', monospace; }.title-bar { background: #000080; color: white; padding: 2px; cursor: move; display: flex; justify-content: space-between; select: none; }.content { flex: 1; overflow: auto; padding: 5px; } #taskbar { position: fixed; bottom: 0; width: 100%; height: 30px; background: #C0C0C0; border-top: 2px solid white; display: flex; align-items: center; padding: 0 5px; } #start-menu { position: fixed; bottom: 32px; left: 2px; width: 150px; background: #C0C0C0; border: 2px outset #fff; display: none; } #desktop { width:100vw; height: calc(100vh - 30px); position: relative; overflow: hidden; }",
+        "output": "css/style.css"
+    },
+    {
+        "name": "OS-Kernel",
+        "prompt": "Generate ONLY JavaScript code (no HTML/CSS/explanations). Namespace: window.OS = {}. Init function that sets up clock update every second. Start Menu toggle logic. Global 'apps' registry where apps can register themselves (OS.apps = {}). Code: window.OS = { apps: {}, wm: null, fs: null }; document.addEventListener('DOMContentLoaded', () => { setInterval(() => { const d=new Date(); document.getElementById('clock').innerText = d.toLocaleTimeString(); }, 1000); document.getElementById('start-btn').onclick = () => { const menu = document.getElementById('start-menu'); menu.style.display = menu.style.display === 'none' ? 'block' : 'none'; }; });",
+        "output": "js/kernel.js"
+    },
+    {
+        "name": "OS-WM",
+        "prompt": "Generate ONLY JavaScript code (no HTML/CSS/explanations). Class WindowManager. Methods: open(appId), close(windowId). Logic: Create DOM element <div class='window'>...</div> inside #desktop. Drag logic (mousedown on title-bar). Z-index handling (active window on top). Store windows in OS.windows = []. Code: class WindowManager { constructor() { this.windows = []; this.zIndex = 100; } open(appId) { const app = OS.apps[appId]; if(!app) return; const win = document.createElement('div'); win.className = 'window'; win.style.left = '50px'; win.style.top = '50px'; win.style.width = '400px'; win.style.height = '300px'; win.style.zIndex = ++this.zIndex; win.innerHTML = `<div class='title-bar'><span>${app.title}</span><button onclick='OS.wm.close(this.parentElement.parentElement)'>X</button></div><div class='content'></div>`; const content = win.querySelector('.content'); app.init(content); document.getElementById('desktop').appendChild(win); this.makeDraggable(win); } close(winEl) { winEl.remove(); } makeDraggable(win) { const title = win.querySelector('.title-bar'); let isDragging = false; let offX, offY; title.addEventListener('mousedown', (e) => { isDragging = true; offX = e.offsetX; offY = e.offsetY; win.style.zIndex = ++this.zIndex; }); window.addEventListener('mousemove', (e) => { if(isDragging) { win.style.left = (e.clientX - offX) + 'px'; win.style.top = (e.clientY - offY) + 'px'; }}); window.addEventListener('mouseup', () => isDragging = false); } } OS.wm = new WindowManager();",
+        "output": "js/wm.js"
+    },
+    {
+        "name": "OS-FS",
+        "prompt": "Generate ONLY JavaScript code (no HTML/CSS/explanations). Class FileSystem. Methods: write(filename, content), read(filename), list(). Use localStorage. Code: class FileSystem { constructor() { if(!localStorage.getItem('os_files')) localStorage.setItem('os_files', JSON.stringify({})); } get files() { return JSON.parse(localStorage.getItem('os_files')); } write(name, content) { const files = this.files; files[name] = content; localStorage.setItem('os_files', JSON.stringify(files)); } read(name) { return this.files[name] || ''; } list() { return Object.keys(this.files); } } OS.fs = new FileSystem();",
+        "output": "js/fs.js"
+    },
+    {
+        "name": "App-Terminal",
+        "prompt": "Generate ONLY JavaScript code (no HTML/CSS/explanations). Register app 'terminal'. Content: <div id='term-output'></div><input id='term-input' autofocus>. Logic: Handle 'Enter' key. Commands: 'help', 'ls' (OS.fs.list()), 'echo [text]', 'clear'. Code: OS.apps.terminal = { title: 'Terminal', init: (el) => { el.style.background='black'; el.style.color='lime'; el.innerHTML = `<div id='out'>Welcome to BrowserOS 3000<br>Type 'help' for commands.</div><input style='background:black;color:lime;border:none;width:100%;outline:none' onkeydown='if(event.key===\"Enter\"){ OS.apps.terminal.run(this.value, this.previousElementSibling); this.value=\"\"; }'>`; }, run: (cmd, out) => { const args = cmd.split(' '); const c = args[0]; let res = ''; if(c==='help') res='cmds: ls, echo, clear'; else if(c==='ls') res=OS.fs.list().join(' '); else if(c==='echo') res=args.slice(1).join(' '); else if(c==='clear') { out.innerHTML=''; return; } else res='Unknown command'; out.innerHTML += `<div>> ${cmd}</div><div>${res}</div>`; } };",
+        "output": "apps/terminal.js"
+    },
+    {
+        "name": "App-Notepad",
+        "prompt": "Generate ONLY JavaScript code (no HTML/CSS/explanations). Register app 'notepad'. Content: <textarea> and <button>Save</button>. Logic: Load file input? Simple SaveAs implementation to OS.fs. Code: OS.apps.notepad = { title: 'Notepad', init: (el) => { el.innerHTML = `<div style='display:flex;height:100%;flex-direction:column'><input placeholder='Filename' id='note-name'><textarea style='flex:1' id='note-content'></textarea><button onclick='OS.apps.notepad.save(this)'>Save</button></div>`; }, save: (btn) => { const name = btn.parentElement.querySelector('#note-name').value; const content = btn.parentElement.querySelector('#note-content').value; if(name) { OS.fs.write(name, content); alert('Saved ' + name); } } };",
+        "output": "apps/notepad.js"
+    }
+]

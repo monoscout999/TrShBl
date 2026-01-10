@@ -1,0 +1,31 @@
+{
+  "output_file": "static/script.js",
+  "file_type": "js",
+  "modules": [
+    {
+      "name": "JS-Setup",
+      "prompt": "Generate ONLY JavaScript code (no HTML/CSS). Code: const canvas=document.createElement('canvas');document.body.appendChild(canvas);const ctx=canvas.getContext('2d');canvas.width=window.innerWidth;canvas.height=window.innerHeight;window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;});const CONFIG={barCount:64,barGap:2,smoothing:0.8,minDecibels:-90,maxDecibels:-10};let audioCtx,analyser,dataArray,source,isPlaying=false;",
+      "order": 1
+    },
+    {
+      "name": "JS-Audio",
+      "prompt": "Generate ONLY JavaScript code (no HTML/CSS). Code: async function initAudio(){audioCtx=new(window.AudioContext||window.webkitAudioContext)();analyser=audioCtx.createAnalyser();analyser.fftSize=CONFIG.barCount*2;analyser.smoothingTimeConstant=CONFIG.smoothing;analyser.minDecibels=CONFIG.minDecibels;analyser.maxDecibels=CONFIG.maxDecibels;dataArray=new Uint8Array(analyser.frequencyBinCount);try{const stream=await navigator.mediaDevices.getUserMedia({audio:true});source=audioCtx.createMediaStreamSource(stream);source.connect(analyser);isPlaying=true;animate();}catch(e){console.error('Audio error:',e);}}",
+      "order": 2
+    },
+    {
+      "name": "JS-Bars",
+      "prompt": "Generate ONLY JavaScript code (no HTML/CSS). Code: class Bar{constructor(x,width,index){this.x=x;this.width=width;this.height=0;this.targetHeight=0;this.index=index;this.hue=index*(360/CONFIG.barCount);}update(value){this.targetHeight=(value/255)*canvas.height*0.8;this.height+=(this.targetHeight-this.height)*0.1;}draw(){const gradient=ctx.createLinearGradient(this.x,canvas.height,this.x,canvas.height-this.height);gradient.addColorStop(0,`hsl(${this.hue},100%,50%)`);gradient.addColorStop(1,`hsl(${this.hue+30},100%,70%)`);ctx.fillStyle=gradient;ctx.fillRect(this.x,canvas.height-this.height,this.width,this.height);}}let bars=[];function createBars(){bars=[];const barWidth=(canvas.width-(CONFIG.barCount-1)*CONFIG.barGap)/CONFIG.barCount;for(let i=0;i<CONFIG.barCount;i++){bars.push(new Bar(i*(barWidth+CONFIG.barGap),barWidth,i));}}createBars();",
+      "order": 3
+    },
+    {
+      "name": "JS-Render",
+      "prompt": "Generate ONLY JavaScript code (no HTML/CSS). Code: function draw(){ctx.fillStyle='rgba(0,0,0,0.2)';ctx.fillRect(0,0,canvas.width,canvas.height);if(isPlaying&&analyser){analyser.getByteFrequencyData(dataArray);bars.forEach((bar,i)=>{bar.update(dataArray[i]);bar.draw();});}}function animate(){draw();requestAnimationFrame(animate);}",
+      "order": 4
+    },
+    {
+      "name": "JS-Controls",
+      "prompt": "Generate ONLY JavaScript code (no HTML/CSS). Code: const startBtn=document.createElement('button');startBtn.textContent='Start Audio';startBtn.id='startBtn';startBtn.onclick=()=>{if(!isPlaying){initAudio();startBtn.textContent='Listening...';}};document.body.appendChild(startBtn);window.addEventListener('resize',createBars);",
+      "order": 5
+    }
+  ]
+}

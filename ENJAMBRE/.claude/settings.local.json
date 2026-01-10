@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree:*)",
+      "Bash(move \"C:\\\\Trailshoot\\\\ENJAMBRE\\\\docs\\\\README.md\" \"C:\\\\Trailshoot\\\\ENJAMBRE\\\\docs\\\\archive\\\\README.md\")",
+      "Bash(move \"C:\\\\Trailshoot\\\\ENJAMBRE\\\\docs\\\\STATUS.md\" \"C:\\\\Trailshoot\\\\ENJAMBRE\\\\docs\\\\archive\\\\STATUS.md\")",
+      "Bash(move:*)",
+      "Bash(python tool/modular_generator.py:*)",
+      "Bash(cat:*)"
+    ]
+  }
+}

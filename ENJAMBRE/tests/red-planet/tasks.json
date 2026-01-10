@@ -1,0 +1,82 @@
+[
+    {
+        "name": "Game-HTML",
+        "prompt": "Generate ONLY HTML5 code. Title: Red Planet. Import 'style.css'. Import order: engine/resources.js, engine/grid.js, engine/pathfinder.js, buildings/building.js, buildings/solar.js, buildings/habitat.js, buildings/greenhouse.js, buildings/water-extractor.js, buildings/mine.js, buildings/battery.js, entities/colonist.js, engine/game.js, ui/renderer.js, ui/interface.js. Body: <div id='ui-top-bar'></div><canvas id='game-canvas'></canvas><div id='ui-bottom-bar'></div>. Code: <!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><title>Red Planet</title><link rel='stylesheet' href='style.css'></head><body><div id='top-bar'><span id='res-display'></span></div><canvas id='canvas'></canvas><div id='build-menu'></div><script src='engine/resources.js'></script><script src='engine/grid.js'></script><script src='engine/pathfinder.js'></script><script src='buildings/building.js'></script><script src='buildings/solar.js'></script><script src='buildings/habitat.js'></script><script src='buildings/greenhouse.js'></script><script src='buildings/water-extractor.js'></script><script src='buildings/mine.js'></script><script src='buildings/battery.js'></script><script src='entities/colonist.js'></script><script src='engine/game.js'></script><script src='ui/renderer.js'></script><script src='ui/interface.js'></script></body></html>",
+        "output": "index.html"
+    },
+    {
+        "name": "Game-CSS",
+        "prompt": "Generate ONLY CSS code. Sci-fi theme. Dark hex colors (#1a1a2e, #16213e). Canvas full screen. UI bars fixed top/bottom with semi-transparent backgrounds. Buttons with neon borders. Code: body { margin: 0; overflow: hidden; background: #0b0c10; color: #66fcf1; font-family: 'Segoe UI', sans-serif; } #canvas { display: block; } #top-bar { position: absolute; top: 0; width: 100%; padding: 10px; background: rgba(11, 12, 16, 0.8); display: flex; gap: 20px; font-weight: bold; border-bottom: 2px solid #45a29e; pointer-events: none; } #build-menu { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; padding: 10px; background: rgba(31, 40, 51, 0.9); border: 1px solid #66fcf1; border-radius: 8px; } .build-btn { background: #1f2833; color: #c5c6c7; border: 1px solid #45a29e; padding: 8px 16px; cursor: pointer; transition: all 0.2s; } .build-btn:hover { background: #45a29e; color: #0b0c10; box-shadow: 0 0 10px #66fcf1; } .build-btn.active { background: #66fcf1; color: #0b0c10; font-weight: bold; }",
+        "output": "style.css"
+    },
+    {
+        "name": "Engine-Game",
+        "prompt": "Generate ONLY JavaScript code. Class Game (Singleton). Properties: speed=1, dayTime=0. Loop using requestAnimationFrame. Updates: Resources, Entities, Renderer. Global Namespace: window.Game. Code: window.Game = { tileSize: 32, width: 0, height: 0, entities: [], buildings: [], speed: 1, time: 0, dayCycle: 12000, init: function() { this.canvas = document.getElementById('canvas'); this.ctx = this.canvas.getContext('2d'); this.resize(); window.onresize = () => this.resize(); Grid.init(50, 50); Resources.init(); Renderer.init(); Interface.init(); this.loop(); }, resize: function() { this.width = window.innerWidth; this.height = window.innerHeight; this.canvas.width = this.width; this.canvas.height = this.height; }, update: function() { this.time += this.speed; if(this.time > this.dayCycle) this.time = 0; Resources.update(); this.entities.forEach(e => e.update()); this.buildings.forEach(b => b.update()); }, loop: function() { requestAnimationFrame(() => this.loop()); this.update(); Renderer.draw(); } }; window.onload = () => Game.init();",
+        "output": "engine/game.js"
+    },
+    {
+        "name": "Engine-Grid",
+        "prompt": "Generate ONLY JavaScript code. Static Class Grid. 2D Array [x][y]. Methods: get(x,y), set(x,y, val). Content: Terrain types (0: Sand, 1: Rock). Validation for building placement. Code: window.Grid = { width: 0, height: 0, cells: [], init: function(w, h) { this.width = w; this.height = h; for(let x=0; x<w; x++) { this.cells[x] = []; for(let y=0; y<h; y++) { this.cells[x][y] = { terrain: Math.random()>0.8 ? 1 : 0, building: null }; } } }, get: function(x, y) { if(x<0||x>=this.width||y<0||y>=this.height) return null; return this.cells[x][y]; }, placeBuilding: function(x, y, building) { const cell = this.get(x,y); if(cell && !cell.building && cell.terrain === 0) { cell.building = building; return true; } return false; } };",
+        "output": "engine/grid.js"
+    },
+    {
+        "name": "Engine-Resources",
+        "prompt": "Generate ONLY JavaScript code. Static Class Resources. Storage for: power, oxygen, meal, water, metal. Max caps. Update logic (consumption/production). Code: window.Resources = { stock: { power: 100, oxygen: 100, meal: 50, water: 50, metal: 200 }, cap: { power: 500, oxygen: 500, meal: 200, water: 200, metal: 500 }, rates: { power: 0, oxygen: 0 }, init: function() {}, update: function() { Object.keys(this.stock).forEach(key => { if(this.stock[key] > this.cap[key]) this.stock[key] = this.cap[key]; if(this.stock[key] < 0) this.stock[key] = 0; }); }, add: function(type, amount) { this.stock[type] += amount; }, consume: function(type, amount) { if(this.stock[type] >= amount) { this.stock[type] -= amount; return true; } return false; } };",
+        "output": "engine/resources.js"
+    },
+    {
+        "name": "Engine-Pathfinder",
+        "prompt": "Generate ONLY JavaScript code. Class Pathfinder. simple A* or BFS or just Manhattan distance direction for validation purposes to keep code short. Return next step [dx, dy]. Code: window.Pathfinder = { findPath: function(sx, sy, tx, ty) { const dx = tx - sx; const dy = ty - sy; if(Math.abs(dx) > Math.abs(dy)) return [Math.sign(dx), 0]; else return [0, Math.sign(dy)]; } }; // Placeholder for complex A*",
+        "output": "engine/pathfinder.js"
+    },
+    {
+        "name": "Building-Base",
+        "prompt": "Generate ONLY JavaScript code. Class Building. Properties: x, y, type, cost (obj), active. Update method. Code: class Building { constructor(x, y) { this.x = x; this.y = y; this.active = true; } update() {} static getCost() { return { metal: 10 }; } } window.Building = Building;",
+        "output": "buildings/building.js"
+    },
+    {
+        "name": "Building-Solar",
+        "prompt": "Generate ONLY JavaScript code. Class SolarPanel extends Building. Produces power during day. Code: class SolarPanel extends Building { constructor(x, y) { super(x, y); this.output = 0.5; } update() { if(Game.time < Game.dayCycle/2) { Resources.add('power', this.output); } } static getCost() { return { metal: 20 }; } } window.SolarPanel = SolarPanel;",
+        "output": "buildings/solar.js"
+    },
+    {
+        "name": "Building-Habitat",
+        "prompt": "Generate ONLY JavaScript code. Class Habitat extends Building. Consumes power/oxygen. Provides capacity for colonists. Code: class Habitat extends Building { constructor(x, y) { super(x, y); this.pop = 0; } update() { Resources.consume('power', 0.1); Resources.consume('oxygen', 0.1); } static getCost() { return { metal: 50 }; } } window.Habitat = Habitat;",
+        "output": "buildings/habitat.js"
+    },
+    {
+        "name": "Building-Greenhouse",
+        "prompt": "Generate ONLY JavaScript code. Class Greenhouse extends Building. Consumes water + power -> Makes Food. Code: class Greenhouse extends Building { constructor(x, y) { super(x, y); this.progress = 0; } update() { if(Resources.consume('water', 0.05) && Resources.consume('power', 0.1)) { this.progress++; if(this.progress > 100) { Resources.add('meal', 10); this.progress = 0; } } } static getCost() { return { metal: 30 }; } } window.Greenhouse = Greenhouse;",
+        "output": "buildings/greenhouse.js"
+    },
+    {
+        "name": "Building-Water",
+        "prompt": "Generate ONLY JavaScript code. Class WaterExtractor extends Building. Consumes power -> Makes Water. Code: class WaterExtractor extends Building { constructor(x, y) { super(x, y); } update() { if(Resources.consume('power', 0.2)) { Resources.add('water', 0.1); } } static getCost() { return { metal: 40 }; } } window.WaterExtractor = WaterExtractor;",
+        "output": "buildings/water-extractor.js"
+    },
+    {
+        "name": "Building-Mine",
+        "prompt": "Generate ONLY JavaScript code. Class Mine extends Building. Consumes power -> Makes Metal. Code: class Mine extends Building { constructor(x, y) { super(x, y); } update() { if(Resources.consume('power', 0.3)) { Resources.add('metal', 0.2); } } static getCost() { return { metal: 100 }; } } window.Mine = Mine;",
+        "output": "buildings/mine.js"
+    },
+    {
+        "name": "Building-Battery",
+        "prompt": "Generate ONLY JavaScript code. Class Battery extends Building. Increases power cap or stores extra. Code: class Battery extends Building { constructor(x, y) { super(x, y); Resources.cap.power += 500; } static getCost() { return { metal: 30 }; } } window.Battery = Battery;",
+        "output": "buildings/battery.js"
+    },
+    {
+        "name": "Entity-Colonist",
+        "prompt": "Generate ONLY JavaScript code. Class Colonist. States: IDLE, WORK, SLEEP. Needs: Hunger, Fatigue. Code: class Colonist { constructor(x, y) { this.x = x; this.y = y; this.hunger = 0; this.fatigue = 0; this.state = 'IDLE'; } update() { this.hunger += 0.05; this.fatigue += 0.02; if(this.hunger > 80 && Resources.consume('meal', 1)) this.hunger = 0; if(this.fatigue > 90) this.state = 'SLEEP'; if(this.state === 'SLEEP') { this.fatigue -= 0.5; if(this.fatigue <= 0) this.state = 'IDLE'; } else { // Random wander const move = Pathfinder.findPath(this.x, this.y, this.x + (Math.random()-0.5)*10, this.y + (Math.random()-0.5)*10); this.x += move[0] * 0.1; this.y += move[1] * 0.1; } } } window.Colonist = Colonist;",
+        "output": "entities/colonist.js"
+    },
+    {
+        "name": "UI-Renderer",
+        "prompt": "Generate ONLY JavaScript code. Class Renderer. Draw Grid, Terrain, Buildings, Entities on Canvas. Code: window.Renderer = { init: function() {}, draw: function() { const ctx = Game.ctx; ctx.fillStyle = '#0b0c10'; ctx.fillRect(0, 0, Game.width, Game.height); const ts = Game.tileSize; // Camera offset placeholder let cx = 0, cy = 0; // Draw Visible Grid using nested loops for(let x=0; x<Grid.width; x++) { for(let y=0; y<Grid.height; y++) { let cell = Grid.cells[x][y]; ctx.fillStyle = cell.terrain === 1 ? '#444' : '#c2b280'; ctx.fillRect(x*ts, y*ts, ts-1, ts-1); if(cell.building) { ctx.fillStyle = cell.building.constructor.name === 'SolarPanel' ? 'blue' : 'gray'; ctx.fillRect(x*ts+4, y*ts+4, ts-8, ts-8); } } } Game.entities.forEach(e => { ctx.fillStyle = 'white'; ctx.beginPath(); ctx.arc(e.x*ts + ts/2, e.y*ts + ts/2, ts/3, 0, Math.PI*2); ctx.fill(); }); } };",
+        "output": "ui/renderer.js"
+    },
+    {
+        "name": "UI-Interface",
+        "prompt": "Generate ONLY JavaScript code. Class Interface. Build Menu creation. Update Resource Display. Code: window.Interface = { selectedBuild: null, init: function() { const menu = document.getElementById('build-menu'); const types = ['SolarPanel', 'Habitat', 'Greenhouse', 'Mine', 'WaterExtractor', 'Battery']; types.forEach(t => { const btn = document.createElement('div'); btn.className = 'build-btn'; btn.innerText = t; btn.onclick = () => { this.selectedBuild = t; document.querySelectorAll('.build-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }; menu.appendChild(btn); }); Game.canvas.onclick = (e) => { if(this.selectedBuild) { const x = Math.floor(e.offsetX / Game.tileSize); const y = Math.floor(e.offsetY / Game.tileSize); const Cost = window[this.selectedBuild].getCost(); if(Resources.consume('metal', Cost.metal)) { const b = new window[this.selectedBuild](x, y); if(Grid.placeBuilding(x, y, b)) Game.buildings.push(b); else Resources.add('metal', Cost.metal); // refund } } }; }, update: function() { document.getElementById('res-display').innerText = `Power: ${Math.floor(Resources.stock.power)} | Oxygen: ${Math.floor(Resources.stock.oxygen)} | Metal: ${Math.floor(Resources.stock.metal)} | Food: ${Math.floor(Resources.stock.meal)}`; requestAnimationFrame(()=>this.update()); } };",
+        "output": "ui/interface.js"
+    }
+]

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realistic Fire Simulator</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        body {
+            font-family: 'Orbitron', sans-serif;
+            margin: 20px;
+        }
+        #controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        label, input[type="range"] {
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        #temp-gauge, #fps, #particle-count {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="fire-canvas"></canvas>
+    <div id="controls">
+        <h2>Fire Controls</h2>
+        <label for="intensity">Intensity:</label>
+        <span id="intensity-val">70</span>
+        <input type="range" id="intensity" min="0" max="100" value="70">
+        <label for="wind">Wind:</label>
+        <span id="wind-val">30</span>
+        <input type="range" id="wind" min="0" max="100" value="30">
+        <label for="buoyancy">Buoyancy:</label>
+        <span id="buoyancy-val">60</span>
+        <input type="range" id="buoyancy" min="0" max="100" value="60">
+        <label for="heat">Heat:</label>
+        <span id="heat-val">80</span>
+        <input type="range" id="heat" min="0" max="100" value="80">
+        <label for="sparks">Spark Rate:</label>
+        <span id="sparks-val">50</span>
+        <input type="range" id="sparks" min="0" max="100" value="50">
+    </div>
+    <div id="preset-buttons">
+        <button id="preset-candle" text='Candle'>Candle</button>
+        <button id="preset-campfire" text='Campfire'>Campfire</button>
+        <button id="preset-torch" text='Torch'>Torch</button>
+        <button id="preset-bonfire" text='Bonfire'>Bonfire</button>
+        <button id="preset-inferno" text='Inferno'>Inferno</button>
+    </div>
+    <div id="temp-gauge"></div>
+    <div id="fps"></div>
+    <div id="particle-count"></div>
+    <script src="/static/script.js"></script>
+</body>
+</html>

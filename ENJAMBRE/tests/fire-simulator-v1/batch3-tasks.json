@@ -1,0 +1,22 @@
+[
+    {
+        "name": "JS-Setup",
+        "prompt": "Generate ONLY JavaScript code for canvas setup and config. Get canvas by id 'fire-canvas', get 2d context, set canvas width and height to window innerWidth and innerHeight. Add window resize listener to update canvas size. Create config object with properties: intensity 0.7, windStrength 0.3, buoyancy 0.5, tempRange array [500, 2000], particleCount 400. Create emptyparticles array. Add SimplexNoise initialization: const noise = new SimplexNoise().",
+        "output": "static/js-setup.js"
+    },
+    {
+        "name": "JS-Particle",
+        "prompt": "Generate ONLY JavaScript code for Particle class. Class Particle with constructor(x, y, temp). Properties: this.x = x, this.y = y, this.vx = random between -0.5 and 0.5, this.vy = random between -2 and -4, this.temperature = temp, this.age = 0, this.maxAge = random between 60 and 120, this.size = map temperature 500-2000 to size 2-8. Method update() increases age, applies buoyancy (this.vy minus equals config.buoyancy times 0.1), decreases temperature (times 0.98), updates position (this.x plus equals vx, this.y plus equals vy). Method draw(ctx) calculates color based on temperature: if temp less than 750 use red #ff0000, else if less than 1250 use orange #ff8800, else if less than 1750 use yellow #ffff00, else white #ffffff. Set ctx shadowBlur to 15, shadowColor to calculated color, fillStyle to color, draw circle at x y with radius this.size. Method isDead() returns this.age greater than this.maxAge or this.temperature less than 400.",
+        "output": "static/js-particle.js"
+    },
+    {
+        "name": "JS-Physics",
+        "prompt": "Generate ONLY JavaScript code for physics and rendering. Function spawnParticle() creates new Particle at random x between 0 and canvas width, y at canvas height, temperature random between 1500 and 2000, pushes to particles array. Function updateParticles() loops through particles array, calls particle.update(), applies wind using noise (particle.vx plus equals noise times 0.05 times config.windStrength), checks if particle.isDead() and removes from array. Function render() sets ctx fillStyle to 'rgba(0,0,0,0.1)', fillRect to clear canvas with fade effect, loops particles and calls particle.draw(ctx), updates FPS counter, calls requestAnimationFrame(render). Start render loop with render().",
+        "output": "static/js-physics.js"
+    },
+    {
+        "name": "JS-Controls",
+        "prompt": "Generate ONLY JavaScript code for controls and interaction. Add event listeners: intensity slider updates config.intensity. Wind slider updates config.windStrength. Buoyancy slider updates config.buoyancy. Temperature slider updates config.tempRange[1]. Particle-count slider updates config.particleCount. Canvas click spawns 20 particles at click position. Preset-campfire button sets intensity 0.4, wind 0.2, buoyancy 0.3, particleCount 300. Preset-torch button sets intensity 0.6, wind 0.4, buoyancy 0.5, particleCount 400. Preset-inferno button sets intensity 1.0, wind 0.7, buoyancy 0.8, particleCount 700. Add setInterval to spawn particles based on config.intensity times config.particleCount every 100 milliseconds. Add FPS counter update every frame.",
+        "output": "static/js-controls.js"
+    }
+]

@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Backend",
+        "prompt": "Generate ONLY Python Flask code (no HTML/JS/CSS/explanations). Code: from flask import Flask, render_template; app = Flask(__name__, static_folder='static', template_folder='templates'); @app.route('/'); def index(): return render_template('index.html'); if __name__ == '__main__': app.run(port=5000, debug=True)",
+        "output": "app.py"
+    },
+    {
+        "name": "HTML",
+        "prompt": "Generate ONLY HTML5 code. DOCTYPE html, head: title 'Realistic Fire Simulator', Google Fonts Orbitron and Roboto, link /static/style.css. Body: canvas id='fire-canvas'. Control panel div id='controls' with h2 'Fire Controls'. Each slider with LABEL and VALUE display: label 'Intensity' with span id='intensity-val', input range id='intensity' min='0' max='100' value='70'. Same for: Wind (id='wind', value='30'), Buoyancy (id='buoyancy', value='60'), Heat (id='heat', value='80'), Spark Rate (id='sparks', value='50'). Preset buttons div: button id='preset-candle' text='Candle', id='preset-campfire' text='Campfire', id='preset-torch' text='Torch', id='preset-bonfire' text='Bonfire', id='preset-inferno' text='Inferno'. Temperature gauge div id='temp-gauge'. FPS counter div id='fps' text='60 FPS'. Particle count div id='particle-count' text='Particles: 0'. Script /static/script.js.",
+        "output": "templates/index.html"
+    }
+]

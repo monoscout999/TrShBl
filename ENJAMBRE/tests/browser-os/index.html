@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>BrowserOS 3000</title>
+    <link rel='stylesheet' href='css/style.css'>
+</head>
+
+<body>
+    <div id='desktop'></div>
+    <div id='taskbar'>
+        <button id='start-btn'>Start</button>
+        <div id='clock'>00:00</div>
+    </div>
+    <div id='start-menu' style='display:none'>
+        <ul>
+            <li onclick="OS.wm.open('terminal')">Terminal</li>
+            <li onclick="OS.wm.open('notepad')">Notepad</li>
+            <li onclick="OS.wm.open('paint')">Paint</li>
+        </ul>
+    </div>
+    <script src='js/kernel.js'></script>
+    <script src='js/fs.js'></script>
+    <script src='js/wm.js'></script>
+    <script src='apps/terminal.js'></script>
+    <script src='apps/notepad.js'></script>
+    <script src='apps/paint.js'></script>
+</body>
+
+</html>

@@ -1,0 +1,118 @@
+/* CSS code */
+:root {
+  --neon-green: #00ff41;
+  --bg: #000;
+  --glow: rgba(0, 255, 65, 0.3);
+  --pink: #ff006e;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--neon-green);
+  font-family: 'Courier New', monospace;
+  overflow: hidden;
+  height: 100vh;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#matrix-canvas {
+  z-index: -2;
+  opacity: 0.5;
+}
+
+#particle-canvas {
+  z-index: -1;
+}
+
+.crt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.hud-overlay {
+  position: relative;
+  z-index: 5;
+  display: grid;
+  grid-template-areas: 'tl tr' 'center center' 'bottom bottom';
+  grid-template-rows: 150px 1fr 100px;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.hud-center {
+  grid-area: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border: 1px solid var(--neon-green);
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 10px var(--glow);
+}
+
+input {
+  background: transparent;
+  border: none;
+  color: var(--neon-green);
+  font-family: inherit;
+  font-size: 1.2rem;
+  width: 80%;
+  outline:none;
+  text-shadow: 0 0 5px var(--neon-green);
+}
+
+#log-panel {
+  grid-area: bottom;
+  overflow-y:auto;
+  font-size: 0.8rem;
+  border-top: 1px solid var(--neon-green);
+  padding-top:5px;
+}
+
+.status-panel .bar-bg {
+  width: 100px;
+  height: 10px;
+  background:#333;
+  margin-bottom:5px;
+}
+
+.status-panel .bar {
+  height: 100%;
+  background:var(--neon-green);
+  transition:width 0.5s ease;
+}
+
+.glitch-overlay {
+  animation: glitch 10s infinite;
+}
+
+@keyframes glitch {
+  0%, 7%, 10%, 13%, 17%, 20%, 70%, 73%, 100% {
+    opacity: 0;
+  }
+  8%, 11%, 16%, 71% {
+    opacity: 0.1;
+    transform: skew(10deg);
+  }
+  9%, 12%, 72% {
+    opacity: 0.2;
+    transform: skew(-10deg);
+  }
+}

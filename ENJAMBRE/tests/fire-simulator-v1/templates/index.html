@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fire Particle Simulator</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <canvas id="fire-canvas"></canvas>
+    <div id="controls">
+        <h2>Controls</h2>
+        <input type="range" id="intensity" min="0" max="100" value="70">
+        <input type="range" id="wind" min="0" max="100" value="30">
+        <input type="range" id="buoyancy" min="0" max="100" value="50">
+        <input type="range" id="temperature" min="500" max="2000" value="1500">
+        <input type="range" id="particle-count" min="100" max="800" value="400">
+        <button id="preset-campfire">Campfire</button>
+        <button id="preset-torch">Torch</button>
+        <button id="preset-inferno">Inferno</button>
+    </div>
+    <div id="temperature-gauge"></div>
+    <div id="fps-counter">60 FPS</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/simplex-noise@4.0.1/dist/simplex-noise.min.js"></script>
+    <script src="/static/script.js"></script>
+</body>
+</html>

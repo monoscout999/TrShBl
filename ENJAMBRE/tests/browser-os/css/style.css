@@ -1,0 +1,58 @@
+body {
+    background-color: #008080;
+}
+
+.window {
+    border: 2px outset #fff;
+    box-shadow: 2px 2px 0 #000;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Courier New', monospace;
+    background-color: #C0C0C0;
+}
+
+.title-bar {
+    background: #000080;
+    color: white;
+    padding: 2px;
+    cursor: move;
+    display: flex;
+    justify-content: space-between;
+    select: none;
+}
+
+.content {
+    flex: 1;
+    overflow: auto;
+    padding: 5px;
+}
+
+#taskbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 30px;
+    background: #C0C0C0;
+    border-top: 2px solid white;
+    display: flex;
+    align-items: center;
+    padding: 0 5px;
+}
+
+#start-menu {
+    position: fixed;
+    bottom: 32px;
+    left: 2px;
+    width: 150px;
+    background: #C0C0C0;
+    border: 2px outset #fff;
+    display: none;
+}
+
+#desktop {
+    width: 100vw;
+    height: calc(100vh - 30px);
+    position: relative;
+    overflow: hidden;
+}

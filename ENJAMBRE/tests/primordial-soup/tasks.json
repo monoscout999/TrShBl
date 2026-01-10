@@ -1,0 +1,52 @@
+[
+    {
+        "name": "Config",
+        "prompt": "Generate ONLY JavaScript. Object 'Config'. Properties: particleCount (1000), friction (0.9), interactionRadius (80), gravity (0). Types: Red, Green, Blue, Yellow. Code: window.Config = { width: 1000, height: 800, particleCount: 1200, friction: 0.5, radius: 80, forceFactor: 1, types: ['red', 'green', 'blue', 'yellow'] };",
+        "output": "core/config.js"
+    },
+    {
+        "name": "Utils-Vector",
+        "prompt": "Generate ONLY JavaScript. Class Vector2D. Methods: add, sub, mult, mag, normalize, dist. Code: class Vector2D { constructor(x, y) { this.x = x; this.y = y; } add(v) { this.x += v.x; this.y += v.y; } sub(v) { this.x -= v.x; this.y -= v.y; } mult(n) { this.x *= n; this.y *= n; } mag() { return Math.sqrt(this.x*this.x + this.y*this.y); } } window.Vector2D = Vector2D;",
+        "output": "utils/vector.js"
+    },
+    {
+        "name": "Utils-SpatialHash",
+        "prompt": "Generate ONLY JavaScript. Class SpatialHash. Optimization for finding neighbors. Grid based. Methods: clear, add(client), query(client, radius). Code: class SpatialHash { constructor(cellSize) { this.cellSize = cellSize; this.grid = new Map(); } clear() { this.grid.clear(); } getKey(x, y) { return `${Math.floor(x/this.cellSize)},${Math.floor(y/this.cellSize)}`; } add(p) { const key = this.getKey(p.x, p.y); if(!this.grid.has(key)) this.grid.set(key, []); this.grid.get(key).push(p); } query(p, radius) { const x = Math.floor(p.x/this.cellSize); const y = Math.floor(p.y/this.cellSize); const neighbors = []; for(let i=-1; i<=1; i++) { for(let j=-1; j<=1; j++) { const key = `${x+i},${y+j}`; if(this.grid.has(key)) neighbors.push(...this.grid.get(key)); } } return neighbors; } } window.SpatialHash = SpatialHash;",
+        "output": "utils/spatial-hash.js"
+    },
+    {
+        "name": "Sim-Particle",
+        "prompt": "Generate ONLY JavaScript. Class Particle. Properties: x, y, vx, vy, color. Update method to apply velocity. Code: class Particle { constructor(x, y, color) { this.x = x; this.y = y; this.vx = 0; this.vy = 0; this.color = color; } update() { this.x += this.vx; this.y += this.vy; if(this.x<=0 || this.x>=Config.width) this.vx *= -1; if(this.y<=0 || this.y>=Config.height) this.vy *= -1; } } window.Particle = Particle;",
+        "output": "sim/particle.js"
+    },
+    {
+        "name": "Sim-Interaction",
+        "prompt": "Generate ONLY JavaScript. Class InteractionMatrix. 2D array of force values (-1 to 1) between species. Random init. Code: window.InteractionMatrix = { matrix: {}, init: function(types) { types.forEach(t1 => { this.matrix[t1] = {}; types.forEach(t2 => { this.matrix[t1][t2] = Math.random() * 2 - 1; }); }); }, getForce: function(t1, t2) { return this.matrix[t1][t2]; } }; InteractionMatrix.init(Config.types);",
+        "output": "sim/interaction.js"
+    },
+    {
+        "name": "Sim-Physics",
+        "prompt": "Generate ONLY JavaScript. Class Physics. Loop all particles. Use SpatialHash for neighbors. Calculate forces using InteractionMatrix and distance. Apply force to velocity. Code: window.Physics = { particles: [], hash: null, init: function() { this.hash = new SpatialHash(Config.radius); for(let i=0; i<Config.particleCount; i++) { const type = Config.types[Math.floor(Math.random()*Config.types.length)]; this.particles.push(new Particle(Math.random()*Config.width, Math.random()*Config.height, type)); } }, update: function() { this.hash.clear(); this.particles.forEach(p => this.hash.add(p)); this.particles.forEach(p1 => { let Fx = 0, Fy = 0; const neighbors = this.hash.query(p1, Config.radius); neighbors.forEach(p2 => { if(p1 === p2) return; const dx = p2.x - p1.x; const dy = p2.y - p1.y; const d = Math.sqrt(dx*dx + dy*dy); if(d > 0 && d < Config.radius) { const F = InteractionMatrix.getForce(p1.color, p2.color) / d; Fx += (dx/d) * F; Fy += (dy/d) * F; } }); p1.vx = (p1.vx + Fx * Config.forceFactor) * Config.friction; p1.vy = (p1.vy + Fy * Config.forceFactor) * Config.friction; p1.update(); }); } };",
+        "output": "sim/physics.js"
+    },
+    {
+        "name": "Viz-Colors",
+        "prompt": "Generate ONLY JavaScript. Palette object mapping 'red' to hex. Neon colors. Code: window.Colors = { 'red': '#ff0055', 'green': '#00ff55', 'blue': '#0055ff', 'yellow': '#ffff00' };",
+        "output": "viz/colors.js"
+    },
+    {
+        "name": "Viz-Renderer",
+        "prompt": "Generate ONLY JavaScript. Class Renderer. Draw particles as circles with 'lighter' composite for glow. Trail effect by filling background with alpha 0.2. Code: window.Renderer = { ctx: null, init: function() { const cvs = document.getElementById('canvas'); cvs.width = Config.width; cvs.height = Config.height; this.ctx = cvs.getContext('2d'); }, draw: function(particles) { const ctx = this.ctx; ctx.globalCompositeOperation = 'source-over'; ctx.fillStyle = 'rgba(0, 0, 0, 0.4)'; ctx.fillRect(0, 0, Config.width, Config.height); ctx.globalCompositeOperation = 'lighter'; particles.forEach(p => { ctx.fillStyle = Colors[p.color]; ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, Math.PI*2); ctx.fill(); }); } };",
+        "output": "viz/renderer.js"
+    },
+    {
+        "name": "Core-Loop",
+        "prompt": "Generate ONLY JavaScript. Main Loop. Init Physics, Init Renderer. requestAnimationFrame. Code: window.App = { init: function() { Physics.init(); Renderer.init(); this.loop(); }, loop: function() { Physics.update(); Renderer.draw(Physics.particles); requestAnimationFrame(() => App.loop()); } }; window.onload = () => App.init();",
+        "output": "core/loop.js"
+    },
+    {
+        "name": "HTML-Index",
+        "prompt": "Generate ONLY HTML5. Import all JS modules in correct order: Config, Vector, SpatialHash, Particle, Interaction, Physics, Colors, Renderer, Loop. Canvas full screen black. Code: <!DOCTYPE html><html><head><style>body{margin:0;background:black;overflow:hidden}canvas{display:block}</style></head><body><canvas id='canvas'></canvas><script src='core/config.js'></script><script src='utils/vector.js'></script><script src='utils/spatial-hash.js'></script><script src='sim/particle.js'></script><script src='sim/interaction.js'></script><script src='sim/physics.js'></script><script src='viz/colors.js'></script><script src='viz/renderer.js'></script><script src='core/loop.js'></script></body></html>",
+        "output": "index.html"
+    }
+]

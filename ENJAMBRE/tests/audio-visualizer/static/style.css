@@ -1,0 +1,57 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #000;
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* --- MODULE --- */
+
+#startBtn {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    padding: 20px 40px;
+    font-size: 18px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#startBtn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+/* --- MODULE --- */
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(0, 255, 255, 0.6);
+    }
+}
+
+#startBtn {
+    animation: pulse 2s infinite;
+}

@@ -1,0 +1,16 @@
+{
+  "output_file": "style.css",
+  "file_type": "css",
+  "modules": [
+    {
+      "name": "CSS-Base",
+      "prompt": "Generate ONLY CSS: body{margin:0;background:#111;overflow:hidden} canvas{position:fixed;top:0;left:0}",
+      "order": 1
+    },
+    {
+      "name": "CSS-Text",
+      "prompt": "Generate ONLY CSS: h1{color:#fff;font-family:monospace;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10}",
+      "order": 2
+    }
+  ]
+}

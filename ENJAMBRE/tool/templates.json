@@ -1,0 +1,55 @@
+[
+  {
+    "_meta_warning": "[WARNING] NO BORRAR NI MODIFICAR MANUALMENTE SIN BACKUP. ESTE ARCHIVO ES EL CEREBRO DEL SISTEMA.",
+    "_last_updated": "2026-01-10",
+    "template_name": "system-manifest",
+    "description": "Metadatos del sistema (Ignorar en generación)"
+  },
+  {
+    "template_name": "flask-simple",
+    "description": "Flask simple con contratos básicos",
+    "contracts": {
+      "app.py": {"lang": "python", "framework": "flask"},
+      "templates/index.html": {"lang": "html"},
+      "static/style.css": {"lang": "css"},
+      "static/script.js": {"lang": "js"}
+    }
+  },
+  {
+    "template_name": "flask-basic",
+    "description": "Estructura basica de servidor Flask",
+    "files": {
+      "app.py": {
+        "description": "Servidor Flask que sirve templates y archivos estaticos",
+        "code_example": "from flask import Flask, render_template\napp = Flask(__name__, static_folder='static', template_folder='templates')\n\n@app.route('/')\ndef index():\n    return render_template('index.html')\n\nif __name__ == '__main__':\n    app.run(port=5000)"
+      },
+      "templates/index.html": {
+        "description": "Estructura HTML5 basica con imports correctos",
+        "code_example": "<!DOCTYPE html>\n<html lang='en'>\n<head>\n    <meta charset='UTF-8'>\n    <meta name='viewport' content='width=device-width, initial-scale=1.0'>\n    <title>My App</title>\n    <link rel='stylesheet' href='/static/style.css'>\n</head>\n<body>\n    <h1>Hello World</h1>\n    <script src='/static/script.js'></script>\n</body>\n</html>"
+      }
+    },
+    "validation_rules": [
+      "app.py must contain 'render_template'",
+      "app.py must contain 'Flask(__name__, static_folder=...)'",
+      "HTML must use '/static/' paths (absolute)",
+      "templates/ directory must exist",
+      "static/ directory must exist"
+    ]
+  },
+  {
+    "template_name": "flask-minimal",
+    "description": "Flask minimal con contratos simplificados",
+    "contracts": {
+      "app.py": {"lang": "python", "framework": "flask"},
+      "templates/index.html": {"lang": "html", "links": ["/static/style.css", "/static/script.js"]},
+      "static/style.css": {"lang": "css"},
+      "static/script.js": {"lang": "js", "context": "browser"}
+    },
+    "examples": {
+      "app.py": "from flask import Flask, render_template\napp = Flask(__name__, static_folder='static', template_folder='templates')\n\n@app.route('/')\ndef index():\n    return render_template('index.html')\n\nif __name__ == '__main__':\n    app.run(port=5000)",
+      "templates/index.html": "<!DOCTYPE html>\n<html lang='en'>\n<head>\n<meta charset='UTF-8'>\n<link rel='stylesheet' href='/static/style.css'>\n</head>\n<body>\n<canvas id='canvas'></canvas>\n<script src='/static/script.js'></script>\n</body>\n</html>",
+      "static/style.css": "body { margin: 0; background: #000; }\ncanvas { width: 100%; height: 100vh; }",
+      "static/script.js": "const canvas = document.getElementById('canvas');\nconst ctx = canvas.getContext('2d');\ncanvas.width = window.innerWidth;\ncanvas.height = window.innerHeight;\n// Add particle system here"
+    }
+  }
+]

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Cyberpunk Hacking Terminal</title>
+    <link rel='stylesheet' href='/static/style.css'>
+</head>
+<body>
+    <div class='crt-overlay'></div>
+    <div class='glitch-overlay'></div>
+    <canvas id='matrix-canvas'></canvas>
+    <canvas id='particle-canvas'></canvas>
+    <div class='hud-overlay'>
+        <div class='hud-corner top-left'>
+            <div id='mini-map'></div>
+        </div>
+        <div class='hud-corner top-right'>
+            <div class='status-panel'>
+                <div>CPU: <span id='cpu-val'>0%</span></div>
+                <div class='bar-bg'><div id='cpu-bar' class='bar'></div></div>
+                <div>MEM: <span id='mem-val'>0%</span></div>
+                <div class='bar-bg'><div id='mem-bar' class='bar'></div></div>
+                <div id='net-indicator'>NET: ACTIVE</div>
+            </div>
+        </div>
+        <div class='hud-center'>
+            <div id='terminal-output'></div>
+            <div class='input-line'>
+                <span class='prompt'>USER@BROADCAST:~$</span>
+                <input type='text' id='terminal-input' autofocus spellcheck='false'>
+            </div>
+        </div>
+        <div class='hud-bottom'>
+            <div id='log-panel'></div>
+        </div>
+    </div>
+    <script src='/static/matrix.js'></script>
+    <script src='/static/particles.js'></script>
+    <script src='/static/terminal.js'></script>
+    <script src='/static/ui.js'></script>
+</body>
+</html>

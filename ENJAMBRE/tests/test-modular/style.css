@@ -1,0 +1,23 @@
+body {
+  margin: 0;
+  background: #111;
+  overflow: hidden;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+/* --- MODULE --- */
+
+h1 {
+  color: #fff;
+  font-family: monospace;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
