@@ -3,15 +3,10 @@ import requests
 import json
 import argparse
 import os
-import re
 from concurrent.futures import ThreadPoolExecutor
 
-# Configuración
-AGENTS = {
-    "qwen": "http://127.0.0.1:8080/v1/chat/completions",
-    "mimo": "https://api.xiaomimimo.com/v1/chat/completions"
-}
-KEYS = { "qwen": "no-needed", "mimo": "TU_KEY_XIAOMI" }
+from config import AGENTS, TIMEOUTS, GENERATION
+from utils import save_output
 
 # Prompts Especializados
 SYSTEM_PROMPTS = {
@@ -29,56 +24,36 @@ SYSTEM_PROMPTS = {
 }
 
 def call_api(agent_name, prompt, mode="default"):
-    url = AGENTS.get(agent_name)
+    agent = AGENTS.get(agent_name)
+    if not agent:
+        return f"Error: Agente '{agent_name}' no encontrado"
+
     headers = {
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {KEYS.get(agent_name, '')}"
+        "Authorization": f"Bearer {agent['key']}"
     }
-    
+
     sys_msg = SYSTEM_PROMPTS["patch"] if mode == "patch" else SYSTEM_PROMPTS["default"]
-    
+    max_tokens = GENERATION['max_tokens_patch'] if mode == "patch" else GENERATION['max_tokens_default']
+
     data = {
-        "model": "qwen-local" if agent_name == "qwen" else "mimo-v2-flash",
+        "model": agent['model'],
         "messages": [
             {"role": "system", "content": sys_msg},
             {"role": "user", "content": prompt}
         ],
         "temperature": 0.2,
-        "max_tokens": 4096 if mode == "default" else 1024, # Menos tokens para patches
+        "max_tokens": max_tokens,
         "stream": False
     }
 
     try:
-        response = requests.post(url, headers=headers, json=data, timeout=120)
+        response = requests.post(agent['url'], headers=headers, json=data, timeout=TIMEOUTS['generation'])
         if response.status_code == 200:
             return response.json()['choices'][0]['message']['content']
         return f"Error {response.status_code}: {response.text}"
     except Exception as e:
         return f"Exception: {e}"
-
-def save_output(content, output_path):
-    """Guarda el contenido extraido del output en el archivo especificado"""
-    if not output_path:
-        return None
-
-    # Crear directorio si no existe
-    dir_path = os.path.dirname(output_path)
-    if dir_path and not os.path.exists(dir_path):
-        os.makedirs(dir_path, exist_ok=True)
-
-    # Extraer codigo entre bloques de markdown
-    code_match = re.search(r'```(?:python|javascript|json|yaml|plaintext|dockerfile|bash|shell)?\s*\n(.*?)```', content, re.DOTALL | re.IGNORECASE)
-    if code_match:
-        code_content = code_match.group(1)
-    else:
-        # Si no hay bloques, usar el contenido completo limpiando markdown
-        code_content = re.sub(r'^```\w*\n|```$', '', content, flags=re.MULTILINE)
-
-    # Guardar archivo
-    with open(output_path, 'w', encoding='utf-8') as f:
-        f.write(code_content)
-
-    return output_path
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

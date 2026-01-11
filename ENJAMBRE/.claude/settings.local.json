@@ -6,7 +6,10 @@
       "Bash(move \"C:\\\\Trailshoot\\\\ENJAMBRE\\\\docs\\\\STATUS.md\" \"C:\\\\Trailshoot\\\\ENJAMBRE\\\\docs\\\\archive\\\\STATUS.md\")",
       "Bash(move:*)",
       "Bash(python tool/modular_generator.py:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(mkdir:*)",
+      "Bash(python:*)",
+      "Bash(grep:*)"
     ]
   }
 }

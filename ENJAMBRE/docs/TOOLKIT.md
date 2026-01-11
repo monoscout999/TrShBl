@@ -1,6 +1,32 @@
-# 🛠️ SYSTEM TOOLKIT DOCUMENTATION
+# SYSTEM TOOLKIT DOCUMENTATION
 
-## 📚 Available Tools
+## Modulo Centralizado: utils/
+
+Nueva estructura que centraliza codigo compartido entre todos los scripts:
+
+```
+tool/utils/
+├── __init__.py      # Exporta API publica
+├── file_ops.py      # load_json, save_json, save_output, ensure_dir_exists
+├── validators.py    # WRONG_LANG_PATTERNS, EXPECTED_KEYWORDS, validate_file_language
+└── code_extract.py  # extract_code_from_markdown
+```
+
+**Uso desde cualquier script:**
+```python
+from utils import load_json, save_json, ensure_dir_exists
+from utils import validate_file_language, WRONG_LANG_PATTERNS
+```
+
+**Beneficios:**
+- Un solo lugar para cada funcion
+- Cambios se propagan automaticamente
+- Menos codigo duplicado
+- Testing mas facil
+
+---
+
+## Available Tools
 
 ### **1. ask_agent_batch_v2.py** - Main Orchestrator
 **Purpose:** Generates multiple files in parallel using swarm intelligence

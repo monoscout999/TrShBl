@@ -10,26 +10,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-def load_json(filepath):
-    """Carga un archivo JSON con manejo de errores."""
-    try:
-        with open(filepath, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return None
-    except json.JSONDecodeError:
-        print(f"⚠️  Error: No se pudo parsear {filepath}")
-        return None
-
-def save_json(filepath, data):
-    """Guarda datos en archivo JSON con formato bonito."""
-    try:
-        with open(filepath, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=2, ensure_ascii=False)
-        return True
-    except Exception as e:
-        print(f"ADVERTENCIA: Error guardando {filepath}: {e}")
-        return False
+from utils import load_json, save_json
 
 def analyze_execution_report(report):
     """Analiza execution_report.json y extrae métricas."""

@@ -73,8 +73,3 @@ btn.onclick = function() {
     btn.remove();
 };
 document.body.appendChild(btn);
-
-// Initialize audio context and start animation
-function initAudio() {
-    // Your audio initialization code here
-}

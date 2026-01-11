@@ -7,21 +7,22 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
 import requests
 
-from config import SCRIPTS, PROJECT_ROOT, LLM_SERVER
+from config import SCRIPTS, PROJECT_ROOT, LLM_SERVER, TIMEOUTS, GENERATION
+from utils import load_json, save_json, ensure_dir_exists
 
 def load_tasks(tasks_file):
     """Carga las tareas desde un archivo JSON"""
-    with open(tasks_file, 'r', encoding='utf-8') as f:
-        return json.load(f)
+    data = load_json(tasks_file)
+    if data is None:
+        raise FileNotFoundError(f"No se pudo cargar: {tasks_file}")
+    return data
 
 def load_template(template_name):
     """Carga un template de la librería de templates"""
     templates_path = os.path.join(os.path.dirname(__file__), 'templates.json')
-    if not os.path.exists(templates_path):
+    templates = load_json(templates_path)
+    if templates is None:
         return None
-
-    with open(templates_path, 'r', encoding='utf-8') as f:
-        templates = json.load(f)
 
     for template in templates:
         if template['template_name'] == template_name:
@@ -264,8 +265,8 @@ def early_validation_check(output_file, template_name=None):
 
     # Check 2: Tamaño mínimo (evitar archivos vacíos o truncados)
     file_size = os.path.getsize(output_file)
-    if file_size < 50:  # Menos de 50 bytes es sospechosamente pequeño
-        errors.append(f"Archivo demasiado pequeño: {file_size} bytes (mínimo esperado: 50)")
+    if file_size < GENERATION['min_file_size']:
+        errors.append(f"Archivo demasiado pequeño: {file_size} bytes (mínimo esperado: {GENERATION['min_file_size']})")
         return {'valid': False, 'errors': errors, 'warnings': warnings}
 
     # Check 3: Estructura básica según extensión
@@ -377,7 +378,7 @@ def execute_task(task, agent="qwen", mode="default", max_retries=3, template_nam
     attempts = []
     for attempt in range(1, max_retries + 1):
         try:
-            result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=TIMEOUTS['generation'])
 
             attempt_result = {
                 'attempt': attempt,
@@ -516,7 +517,7 @@ def validate_output(project_path, template_type="flask"):
                 text=True,
                 encoding='utf-8',
                 errors='replace',
-                timeout=30
+                timeout=TIMEOUTS['subprocess']
             )
 
             validation_output = result.stdout
@@ -555,7 +556,7 @@ def test_generation(project_path, port=5000):
             ['python', test_script, '--path', project_path, '--port', str(port)],
             capture_output=True,
             text=True,
-            timeout=30
+            timeout=TIMEOUTS['subprocess']
         )
 
         return {
@@ -579,7 +580,7 @@ def check_qwen_health():
                 "messages": [{"role": "user", "content": "test"}],
                 "max_tokens": 5
             },
-            timeout=5
+            timeout=TIMEOUTS['health_check']
         )
         return response.status_code == 200
     except Exception:
@@ -589,17 +590,10 @@ def create_directory_structure(base_dir):
     """Crea la estructura de carpetas necesaria"""
     if not base_dir:
         return True
-    
-    try:
-        os.makedirs(base_dir, exist_ok=True)
-        templates_dir = os.path.join(base_dir, 'templates')
-        static_dir = os.path.join(base_dir, 'static')
-        os.makedirs(templates_dir, exist_ok=True)
-        os.makedirs(static_dir, exist_ok=True)
-        return True
-    except Exception as e:
-        print(f"ADVERTENCIA: Error creando estructura de carpetas: {e}")
-        return False
+
+    return (ensure_dir_exists(base_dir) and
+            ensure_dir_exists(os.path.join(base_dir, 'templates')) and
+            ensure_dir_exists(os.path.join(base_dir, 'static')))
 
 def update_metrics_execution(execution_report_path, metrics_file='metrics.json'):
     """Actualiza metrics.json automáticamente después de cada ejecución"""
@@ -610,7 +604,7 @@ def update_metrics_execution(execution_report_path, metrics_file='metrics.json')
              '--metrics-file', metrics_file],
             capture_output=True,
             text=True,
-            timeout=30
+            timeout=TIMEOUTS['subprocess']
         )
         if result.returncode == 0:
             print("Métricas actualizadas automáticamente")
@@ -711,7 +705,7 @@ def main():
             task = future_to_task[future]
             task_name = task.get('name', 'unnamed')[:50]
             try:
-                result = future.result(timeout=120)  # Timeout por future individual
+                result = future.result(timeout=TIMEOUTS['generation'])
                 results.append(result)
 
                 if result['success']:
@@ -831,8 +825,7 @@ def main():
         }
     }
 
-    with open(report_file, 'w', encoding='utf-8') as f:
-        json.dump(report_data, f, indent=2, ensure_ascii=False)
+    save_json(report_file, report_data)
     print(f"Reporte guardado en: {report_file}")
     
     # === ACTUALIZACIÓN AUTOMÁTICA DE MÉTRICAS ===

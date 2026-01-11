@@ -9,11 +9,11 @@ import json
 import subprocess
 
 from config import SCRIPTS, CONFIG_FILES, PROJECT_ROOT
+from utils import load_json, save_json, ensure_dir_exists
 
 def load_prompt_library():
     """Carga la librería de prompts"""
-    with open(CONFIG_FILES['prompt_library'], 'r') as f:
-        return json.load(f)
+    return load_json(CONFIG_FILES['prompt_library'])
 
 def create_tasks_file(project_name, prompt_type='basic'):
     """Crea tasks.json con prompts optimizados"""
@@ -68,9 +68,8 @@ def create_tasks_file(project_name, prompt_type='basic'):
             }
         ]
     
-    with open(f'{project_name}/tasks.json', 'w') as f:
-        json.dump(tasks, f, indent=2)
-    
+    save_json(f'{project_name}/tasks.json', tasks)
+
     return tasks
 
 def run_swarm(project_name, tasks_file, use_template='flask-simple'):
@@ -123,8 +122,8 @@ def main():
     prompt_type = sys.argv[2] if len(sys.argv) > 2 else 'basic'
     
     # Crear directorio
-    os.makedirs(f'{project_name}/templates', exist_ok=True)
-    os.makedirs(f'{project_name}/static', exist_ok=True)
+    ensure_dir_exists(f'{project_name}/templates')
+    ensure_dir_exists(f'{project_name}/static')
     
     # Crear tasks.json
     print(f"\n1. Creando tasks.json ({prompt_type})...")

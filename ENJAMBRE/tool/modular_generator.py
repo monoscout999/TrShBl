@@ -10,21 +10,15 @@ import os
 import subprocess
 import tempfile
 
-from config import SCRIPTS, PROJECT_ROOT
-
-# Patrones para detectar lenguaje incorrecto
-WRONG_LANG_PATTERNS = {
-    'css': ['from flask', 'function ', 'const ', 'document.', 'def ', 'import ', '<!DOCTYPE', '<html', '<body'],
-    'js': ['from flask', '@app.route', 'def ', 'import Flask', 'render_template', '<!DOCTYPE', '<html', '<head', '<body', '// HTML', '// CSS'],
-    'html': ['from flask', 'def ', '@app.route', 'const canvas', 'function()', '=>'],
-}
-
-# Keywords esperados por tipo de archivo
-EXPECTED_KEYWORDS = {
-    'css': ['body', '{', '}', ':'],
-    'js': ['function', 'const', 'let', 'var', '=>', '(', ')'],
-    'html': ['<', '>', 'html', 'head', 'body'],
-}
+from config import SCRIPTS, PROJECT_ROOT, TIMEOUTS, GENERATION
+from utils import (
+    WRONG_LANG_PATTERNS,
+    EXPECTED_KEYWORDS,
+    load_json,
+    save_json,
+    ensure_dir_exists,
+    validate_file_language
+)
 
 
 class ModularGenerator:
@@ -39,11 +33,9 @@ class ModularGenerator:
 
     def load_modules(self):
         """Carga y valida modules.json"""
-        if not os.path.exists(self.modules_file):
-            raise FileNotFoundError(f"No existe: {self.modules_file}")
-
-        with open(self.modules_file, 'r', encoding='utf-8') as f:
-            data = json.load(f)
+        data = load_json(self.modules_file)
+        if data is None:
+            raise FileNotFoundError(f"No existe o error: {self.modules_file}")
 
         # Validar estructura
         required = ['output_file', 'file_type', 'modules']
@@ -92,8 +84,7 @@ class ModularGenerator:
             })
 
         tasks_file = os.path.join(self.temp_dir, '_modular_tasks.json')
-        with open(tasks_file, 'w', encoding='utf-8') as f:
-            json.dump(tasks, f, indent=2)
+        save_json(tasks_file, tasks)
 
         return tasks_file
 
@@ -110,7 +101,7 @@ class ModularGenerator:
             capture_output=True,
             text=True,
             cwd=PROJECT_ROOT,
-            timeout=180
+            timeout=TIMEOUTS['modular']
         )
 
         return {
@@ -121,29 +112,8 @@ class ModularGenerator:
 
     def check_module_result(self, module_name, file_path, file_type):
         """Verifica resultado de un modulo: OK, EMPTY, WRONG_LANG"""
-        if not os.path.exists(file_path):
-            return {'status': 'MISSING', 'message': 'Archivo no generado'}
-
-        size = os.path.getsize(file_path)
-        if size < 50:
-            return {'status': 'EMPTY', 'message': f'Muy pequeno: {size} bytes'}
-
-        with open(file_path, 'r', encoding='utf-8') as f:
-            content = f.read()
-
-        # Detectar lenguaje incorrecto
-        patterns = WRONG_LANG_PATTERNS.get(file_type, [])
-        for pattern in patterns:
-            if pattern in content:
-                return {'status': 'WRONG_LANG', 'message': f'Detectado: {pattern}'}
-
-        # Verificar keywords esperados
-        keywords = EXPECTED_KEYWORDS.get(file_type, [])
-        found = sum(1 for kw in keywords if kw in content)
-        if found < len(keywords) // 2:
-            return {'status': 'INVALID', 'message': 'Faltan keywords esperados'}
-
-        return {'status': 'OK', 'size': size}
+        result = validate_file_language(file_path, file_type)
+        return {'status': result['status'], 'message': result.get('message', ''), 'size': result.get('size', 0)}
 
     def detect_duplicates(self, content, min_block_size=50):
         """Detecta bloques de codigo duplicados"""
@@ -170,9 +140,7 @@ class ModularGenerator:
         output_file = os.path.join(self.output_dir, config['output_file'])
 
         # Crear directorio si no existe
-        output_dir = os.path.dirname(output_file)
-        if output_dir:
-            os.makedirs(output_dir, exist_ok=True)
+        ensure_dir_exists(os.path.dirname(output_file))
 
         combined_content = []
         total_size = 0
@@ -211,7 +179,7 @@ class ModularGenerator:
             return {'valid': False, 'error': 'Archivo no existe'}
 
         size = os.path.getsize(file_path)
-        if size < 100:
+        if size < GENERATION['min_combined_size']:
             return {'valid': False, 'error': f'Archivo muy pequeno: {size} bytes'}
 
         with open(file_path, 'r', encoding='utf-8') as f:

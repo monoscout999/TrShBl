@@ -105,7 +105,6 @@ Resultado: Copia exacta del codigo esperado.
 | `generate_project.py` | `python tool/generate_project.py <nombre> basic` |
 | `ask_agent_batch_v2.py` | `python tool/ask_agent_batch_v2.py --tasks tasks.json --output-dir . --template flask-simple` |
 | `validate_media.py` | `python tool/validate_media.py <directorio>` |
-| `cleanup.py` | `python tool/cleanup.py` |
 
 ---
 

@@ -7,6 +7,8 @@ Verifica que contengan keywords esenciales según el tipo
 import os
 import sys
 
+from utils import check_file_content
+
 def validate_file(file_path, file_type):
     """Valida un archivo individual"""
     if not os.path.exists(file_path):

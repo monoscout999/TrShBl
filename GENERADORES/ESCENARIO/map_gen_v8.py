@@ -346,4 +346,4 @@ def generate_map_v8(num_arenas=4):
     master_path.build()
     print("V8 Complete.")
 
-generate_map_v8()
+generate_map_v8(num_arenas=5)

@@ -2,6 +2,8 @@ import os
 import json
 import sys
 
+from utils import check_file_content, save_json, ensure_dir_exists
+
 # Helper function for safe printing with UTF-8 fallback
 def safe_print(text):
     try:
@@ -131,16 +133,6 @@ def validate_structure(project_path, template_type="flask"):
         "success": passed == total
     }
 
-def check_file_content(filepath, search_string):
-    """Busca un string en un archivo"""
-    if not os.path.exists(filepath):
-        return False
-    try:
-        with open(filepath, 'r', encoding='utf-8') as f:
-            return search_string in f.read()
-    except:
-        return False
-
 def is_chart_project(project_path):
     """Detecta si el proyecto usa Chart.js u otra librería de gráficos"""
     html_path = os.path.join(project_path, "templates/index.html")
@@ -181,10 +173,8 @@ def validate_context_shared(project_path, requirements):
 
 def generate_report(validation_result, output_path):
     """Genera un reporte JSON de validación"""
-    # Ensure the directory exists
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    with open(output_path, 'w', encoding='utf-8', errors='replace') as f:
-        json.dump(validation_result, f, indent=2, ensure_ascii=False)
+    ensure_dir_exists(os.path.dirname(output_path))
+    save_json(output_path, validation_result)
 
 if __name__ == "__main__":
     import argparse
