@@ -1,0 +1,48 @@
+{
+    "styles": {
+        "standard": {
+            "floor_height": 6.0,
+            "wall_thickness": 2.0,
+            "assets": {
+                "GATE": {
+                    "width": 14.0,
+                    "height": 5.0,
+                    "sill": 0.0,
+                    "type": "OPENING",
+                    "chance": 1.0,
+                    "max_count": 1
+                },
+                "DOOR": {
+                    "width": 3.5,
+                    "height": 3.0,
+                    "sill": 0.0,
+                    "type": "OPENING",
+                    "chance": 0.2,
+                    "max_count": 2
+                },
+                "BIG_WINDOW": {
+                    "width": 8.0,
+                    "height": 3.0,
+                    "sill": 1.5,
+                    "type": "WINDOW",
+                    "chance": 0.2,
+                    "max_count": 1
+                },
+                "WINDOW": {
+                    "width": 4.0,
+                    "height": 2.0,
+                    "sill": 1.5,
+                    "type": "WINDOW",
+                    "chance": 0.3,
+                    "max_count": 2
+                },
+                "SOLID": {
+                    "width": 10.0,
+                    "type": "WALL",
+                    "chance": 1.0,
+                    "max_count": 99
+                }
+            }
+        }
+    }
+}

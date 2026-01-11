@@ -16,9 +16,11 @@ def send_to_blender(code: str):
             s.connect((BLENDER_HOST, BLENDER_PORT))
             s.sendall(code.encode('utf-8'))
             data = s.recv(1024 * 10)
+            if not data:
+                return {"status": "error", "message": "No response from Blender"}
             return json.loads(data.decode('utf-8'))
     except ConnectionRefusedError:
-        return {"status": "error", "message": "Could not connect to Blender. Is the listener running?"}
+        return {"status": "error", "message": "Could not connect to Blender. Is the server running?"}
     except Exception as e:
         return {"status": "error", "message": str(e)}
 

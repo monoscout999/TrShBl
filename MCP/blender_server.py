@@ -27,16 +27,11 @@ class BlenderServer:
             print(f"Blender Listener started on {HOST}:{PORT}")
             while self.running:
                 try:
-                    s.settimeout(1.0)
+                    s.settimeout(0.5)
                     conn, addr = s.accept()
-                    with conn:
-                        data = conn.recv(1024 * 10).decode('utf-8')
-                        if data:
-                            # Push to queue for main thread execution
-                            result_evt = threading.Event()
-                            self.queue.append((data, conn, result_evt))
-                            # Wait for main thread to process (optional, but good for sync)
-                            # result_evt.wait(timeout=5.0) 
+                    data = conn.recv(1024 * 10).decode('utf-8')
+                    if data:
+                        self.queue.append((data, conn))
                 except socket.timeout:
                     continue
                 except Exception as e:
@@ -44,24 +39,25 @@ class BlenderServer:
 
     def process_queue(self):
         while self.queue:
-            code, conn, evt = self.queue.pop(0)
+            code, conn = self.queue.pop(0)
             try:
-                # Redirect output
                 from io import StringIO
                 import sys
                 old_stdout = sys.stdout
                 redirected_output = sys.stdout = StringIO()
                 
-                # Execute
                 exec_globals = {"bpy": bpy, "context": bpy.context}
+                print(f"Executing code: {code[:50]}...")
                 exec(code, exec_globals)
                 
                 output = redirected_output.getvalue()
                 sys.stdout = old_stdout
                 
                 response = {"status": "success", "output": output}
+                print(f"Sending success response: {len(output)} bytes")
                 conn.sendall(json.dumps(response).encode('utf-8'))
             except Exception as e:
+                import traceback
                 error_msg = traceback.format_exc()
                 response = {"status": "error", "message": str(e), "traceback": error_msg}
                 try:
@@ -69,8 +65,11 @@ class BlenderServer:
                 except:
                     pass
             finally:
-                evt.set()
-        return 0.1 # Run again in 0.1s
+                try:
+                    conn.close()
+                except:
+                    pass
+        return 0.1
 
     def start(self):
         if not self.running:
@@ -89,12 +88,6 @@ class BlenderServer:
             bpy.app.timers.unregister(self.process_queue)
         print("Blender MCP Listener stopped.")
 
-# To run within Blender:
-# server = BlenderServer()
-# server.start()
-
 if __name__ == "__main__":
-    # If already running, stop it first (useful for re-runs in Blender)
-    # This is a global singleton-ish check could be added
     server = BlenderServer()
     server.start()

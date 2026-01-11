@@ -1,0 +1,53 @@
+{
+    "arena_types": {
+        "1": {
+            "description": "Standard Industrial",
+            "wall_height": 6.0,
+            "floors_min": 2,
+            "floors_max": 4,
+            "asset_overrides": {
+                "BIG_WINDOW": {
+                    "chance": 0.3,
+                    "max_count": 2
+                },
+                "WINDOW": {
+                    "chance": 0.4,
+                    "max_count": 4
+                }
+            }
+        },
+        "2": {
+            "description": "Bunker / Closed",
+            "wall_height": 6.0,
+            "floors_min": 1,
+            "floors_max": 2,
+            "asset_overrides": {
+                "BIG_WINDOW": {
+                    "chance": 0.0,
+                    "max_count": 0
+                },
+                "WINDOW": {
+                    "chance": 0.1,
+                    "max_count": 2
+                },
+                "SOLID": {
+                    "chance": 1.0
+                }
+            }
+        },
+        "3": {
+            "description": "Open Courtyard",
+            "wall_height": 8.0,
+            "floors_min": 1,
+            "floors_max": 1,
+            "asset_overrides": {
+                "GATE": {
+                    "chance": 0.8
+                },
+                "WINDOW": {
+                    "chance": 0.1
+                }
+            }
+        }
+    }
+}
